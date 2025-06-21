@@ -17,6 +17,10 @@ import userRoutes from "./v1/users.js";
 
 const apiRoutes = express.Router();
 
+
+console.log("NODE_ENV:", process.env.NODE_ENV);
+
+
 const isProduction = process.env.NODE_ENV === "production";
 
 const csrfProtection = csrf({
