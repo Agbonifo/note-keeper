@@ -1,0 +1,43 @@
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Noto Color Emoji", "Apple Color Emoji", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-background {
+  position: relative;
+  min-height: 100vh;
+}
+
+.app-background::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("/assets/images/cubes.png");
+  z-index: -2;
+}
+
+.app-background::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  z-index: -1;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
