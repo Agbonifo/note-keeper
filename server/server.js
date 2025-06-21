@@ -26,7 +26,7 @@ await connectDB();
 
 const app = express();
 
-app.use(cookieParser());
+
 
 const httpServer = createServer(app);
 
@@ -40,6 +40,8 @@ const io = new Server(httpServer, {
 app.set("io", io);
 
 initializeSocket(io);
+
+app.use(cookieParser());
 
 securityMiddleware(app);
 
