@@ -26,6 +26,8 @@ await connectDB();
 
 const app = express();
 
+app.use(cookieParser());
+
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
@@ -38,11 +40,12 @@ const io = new Server(httpServer, {
 app.set("io", io);
 
 initializeSocket(io);
+
 securityMiddleware(app);
 
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
-app.use(cookieParser());
+// app.use(cookieParser());
 
 app.use(helmet());
 app.use(xss());
