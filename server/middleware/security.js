@@ -5,7 +5,6 @@ import cors from "cors";
 import hpp from "hpp";
 import { xss } from "express-xss-sanitizer";
 import mongoSanitize from "express-mongo-sanitize";
-import csrf from "csurf";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -26,17 +25,12 @@ export const securityMiddleware = (app) => {
       credentials: true,
     })
   );
-
+  
   app.use(hpp());
 
   app.use(mongoSanitize());
 
   app.use(xss());
-
-  if (process.env.NODE_ENV === "production") {
-    const csrfProtection = csrf({ cookie: true });
-    app.use(csrfProtection);
-  }
 
   app.use((req, res, next) => {
     if (req.body) {

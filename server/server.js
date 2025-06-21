@@ -37,6 +37,8 @@ app.set("io", io);
 
 initializeSocket(io);
 
+app.set("trust proxy", 1);
+
 app.use(cookieParser());
 
 securityMiddleware(app);

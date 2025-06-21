@@ -9,7 +9,13 @@ import userRoutes from "./v1/users.js";
 
 const apiRoutes = express.Router();
 
-const csrfProtection = csrf({ cookie: true });
+const csrfProtection = csrf({
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+  },
+});
 
 apiRoutes.get("/csrf-token", csrfProtection, (req, res) => {
   res.status(200).json({ csrfToken: req.csrfToken() });
