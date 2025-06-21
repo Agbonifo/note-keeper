@@ -1,4 +1,4 @@
-// server/routes/api/inex.js
+// server/routes/api/index.js
 import express from "express";
 import csrf from "csurf";
 
@@ -9,11 +9,13 @@ import userRoutes from "./v1/users.js";
 
 const apiRoutes = express.Router();
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const csrfProtection = csrf({
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
   },
 });
 
