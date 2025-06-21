@@ -1,4 +1,4 @@
- //server/middleware/security
+//server/middleware/security
 
 import helmet from "helmet";
 import cors from "cors";
@@ -22,7 +22,7 @@ export const securityMiddleware = (app) => {
     cors({
       origin: process.env.CORS_ORIGIN || "*",
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-      allowedHeaders: ["Content-Type", "Authorization"],
+      allowedHeaders: ["Content-Type", "Authorization", "X-CSRF-Token"],
       credentials: true,
     })
   );
@@ -35,23 +35,7 @@ export const securityMiddleware = (app) => {
 
   if (process.env.NODE_ENV === "production") {
     const csrfProtection = csrf({ cookie: true });
-
-    app.use((req, res, next) => {
-      if (["GET", "HEAD", "OPTIONS"].includes(req.method)) {
-        return next();
-      }
-      try {
-        csrfProtection(req, res, next);
-      } catch (err) {
-        if (err.code === "EBADCSRFTOKEN") {
-          return res.status(403).json({
-            success: false,
-            message: "Invalid CSRF token",
-          });
-        }
-        throw err;
-      }
-    });
+    app.use(csrfProtection);
   }
 
   app.use((req, res, next) => {

@@ -1,7 +1,5 @@
 //server/server.js
 import express from "express";
-import helmet from "helmet";
-import { xss } from "express-xss-sanitizer";
 import cookieParser from "cookie-parser";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -26,8 +24,6 @@ await connectDB();
 
 const app = express();
 
-
-
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
@@ -47,16 +43,19 @@ securityMiddleware(app);
 
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
-// app.use(cookieParser());
-
-app.use(helmet());
-app.use(xss());
 
 app.use("/api/", apiLimiter);
 
 app.use("/", routes);
 
 app.use((err, req, res, next) => {
+  if (err.code === "EBADCSRFTOKEN") {
+    return res.status(403).json({
+      success: false,
+      message: "Invalid CSRF token",
+    });
+  }
+
   logger.error("Error:", {
     message: err.message,
     stack: err.stack,
@@ -66,10 +65,9 @@ app.use((err, req, res, next) => {
 
   res.status(500).json({
     success: false,
-    message: "Internal Server Error"
+    message: "Internal Server Error",
   });
 });
-
 
 const PORT = process.env.PORT || 3000;
 
