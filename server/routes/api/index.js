@@ -1,6 +1,14 @@
 // server/routes/api/index.js
 import express from "express";
 import csrf from "csurf";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
 import authRoutes from "./v1/auth.js";
 import noteRoutes from "./v1/notes.js";
