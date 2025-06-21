@@ -9,7 +9,7 @@ import Layout from "./Layout/Layout";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import ErrorBoundary from "./common/ErrorBoundary";
 
-import { fetchCsrfToken } from "./api/api";
+import { fetchCsrfToken } from "../api/api";
 
 import Dashboard from "../pages/Dashboard";
 import LoginPage from "../pages/Auth/LoginPage";
@@ -24,7 +24,7 @@ export default function App() {
    useEffect(() => {
     fetchCsrfToken();
   }, []);
-  
+
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
