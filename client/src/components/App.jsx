@@ -1,17 +1,19 @@
-// // Registration, email verification, login, and reset password worked 16/04/25
-
 // client/src/components/App.jsx
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { StyledEngineProvider } from "@mui/material/styles";
 import theme from "../styles/theme";
 import Layout from "./Layout/Layout";
+import ProtectedRoute from "./Auth/ProtectedRoute";
+import ErrorBoundary from "./common/ErrorBoundary";
+
+import { fetchCsrfToken } from "./api/api";
+
 import Dashboard from "../pages/Dashboard";
 import LoginPage from "../pages/Auth/LoginPage";
 import RegisterPage from "../pages/Auth/RegisterPage";
-import ProtectedRoute from "./Auth/ProtectedRoute";
-import ErrorBoundary from "./common/ErrorBoundary";
 import EmailVerificationPage from "./Auth/EmailVerificationPage";
 import ForgotPasswordPage from "../pages/Auth/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/Auth/ResetPasswordPage";
@@ -19,6 +21,10 @@ import ChangePasswordPage from "../pages/Auth/ChangePasswordPage";
 import ProfilePage from "../pages/UserProfilePage";
 
 export default function App() {
+   useEffect(() => {
+    fetchCsrfToken();
+  }, []);
+  
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
@@ -78,3 +84,4 @@ export default function App() {
     </StyledEngineProvider>
   );
 }
+
