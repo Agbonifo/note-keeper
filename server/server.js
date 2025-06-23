@@ -22,16 +22,33 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 await connectDB();
 
+//server/server.js
 const app = express();
 
 const httpServer = createServer(app);
 
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: process.env.CLIENT_URL,
+//     credentials: true,
+//   },
+// });
+
+const allowedOrigins = process.env.CLIENT_URL?.split(",") || [];
+
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.CLIENT_URL,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Socket.io CORS error"));
+      }
+    },
     credentials: true,
   },
 });
+
 
 app.set("io", io);
 
