@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Box, Alert, CircularProgress } from "@mui/material";
-import { resetPassword, verifyResetPasswordToken } from "../../api/auth"; // you'll need to add this
+import { resetPassword, verifyResetPasswordToken } from "../../api/auth";
 import AuthForm from "./Form/AuthForm";
 import {
   validatePassword,
